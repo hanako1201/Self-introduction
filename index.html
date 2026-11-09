@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="開花豆芽菜の個人簡介 - 台南應用科技大學 多媒體動畫系 個人作品與簡介">
+    <title>開花豆芽菜の個人網站</title>
+    <link rel="icon" type="image/x-icon" href="images/001.ico">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #5A5AAD;
+            --primary-light: #7E7ED1;
+            --primary-dark: #43438A;
+            --accent-pink: #FF8FA3;
+            --accent-peach: #FFB3BA;
+            --accent-green: #68D391;
+            --bg-gradient-1: #D8D8EB;
+            --bg-gradient-2: #EAE6F8;
+            --bg-gradient-3: #F9EAF4;
+            --card-bg: rgba(255, 255, 255, 0.78);
+            --card-border: rgba(255, 255, 255, 0.85);
+            --text-main: #343468;
+            --text-sub: #666699;
+            --shadow-soft: 0 12px 36px rgba(90, 90, 173, 0.12);
+            --shadow-hover: 0 20px 48px rgba(90, 90, 173, 0.22);
+            --radius-lg: 28px;
+            --radius-md: 18px;
+            --radius-sm: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Zen Maru Gothic', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-1) 0%, var(--bg-gradient-2) 50%, var(--bg-gradient-3) 100%);
+            min-height: 100vh;
+            color: var(--text-main);
+            overflow-x: hidden;
+            position: relative;
+            padding-bottom: 60px;
+        }
+
+        /* 柔和動態光暈背景 */
+        .ambient-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.55;
+            animation: floatOrb 12s ease-in-out infinite alternate;
+        }
+
+        .orb-1 {
+            width: 380px;
+            height: 380px;
+            background: rgba(153, 153, 204, 0.6);
+            top: -60px;
+            right: -40px;
+        }
+
+        .orb-2 {
+            width: 440px;
+            height: 440px;
+            background: rgba(255, 179, 186, 0.5);
+            bottom: 5%;
+            left: -80px;
+            animation-duration: 16s;
+            animation-delay: -3s;
+        }
+
+        .orb-3 {
+            width: 300px;
+            height: 300px;
+            background: rgba(186, 230, 253, 0.55);
+            top: 40%;
+            right: 15%;
+            animation-duration: 14s;
+            animation-delay: -6s;
+        }
+
+        @keyframes floatOrb {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(30px, 40px) scale(1.08);
+            }
+
+            100% {
+                transform: translate(-25px, -30px) scale(0.95);
+            }
+        }
+
+        /* 頂部導覽列 (Navigation) */
+        .navbar-wrapper {
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            max-width: 960px;
+            margin: 0 auto 20px;
+            padding: 0 24px;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 10px 16px;
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 14.5px;
+            font-weight: 700;
+            color: var(--text-sub);
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .nav-btn:hover {
+            color: var(--primary);
+            background: rgba(90, 90, 173, 0.08);
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(90, 90, 173, 0.25);
+        }
+
+        /* 主容器與頁面切換控制 */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 10px 24px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-tab {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .page-tab.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 頂部標題區卡片 */
+        .hero-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 44px 36px;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            margin-bottom: 32px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+        }
+
+        .hero-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* 頭像外框 */
+        .avatar-wrapper {
+            position: relative;
+            width: 124px;
+            height: 124px;
+            margin: 0 auto 20px;
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #FFFFFF;
+            box-shadow: 0 10px 24px rgba(90, 90, 173, 0.25);
+            background-color: #FFFFFF;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .avatar-wrapper:hover .avatar-img {
+            transform: scale(1.08) rotate(3deg);
+        }
+
+        /* 在線萌芽狀態標籤 */
+        .status-badge {
+            position: absolute;
+            bottom: 2px;
+            right: 0px;
+            background: linear-gradient(135deg, #74C69D, #52B788);
+            color: #FFFFFF;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 2.5px solid #FFFFFF;
+            box-shadow: 0 4px 10px rgba(82, 183, 136, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            animation: pulseBadge 2.5s infinite;
+        }
+
+        @keyframes pulseBadge {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* 主標題與副標題 */
+        h1.main-title {
+            color: var(--primary);
+            font-size: clamp(32px, 5vw, 46px);
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+            display: inline-block;
+            position: relative;
+            background: linear-gradient(135deg, var(--primary) 0%, #7A7AD1 60%, var(--accent-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 20px rgba(90, 90, 173, 0.1);
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: var(--text-sub);
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .subtitle-pill {
+            background: rgba(90, 90, 173, 0.08);
+            color: var(--primary);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        /* 通用區塊標題 */
+        .section-heading {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-heading::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(90, 90, 173, 0.3), transparent);
+            border-radius: 2px;
+        }
+
+        /* 卡片通用樣式 */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 2px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-light), var(--accent-peach));
+            opacity: 0.8;
+        }
+
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .card-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(90, 90, 173, 0.15), rgba(126, 126, 209, 0.25));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--primary);
+        }
+
+        .card-title {
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* 列表條目樣式 */
+        .info-item {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            font-weight: 700;
+            color: var(--primary);
+            min-width: 72px;
+            flex-shrink: 0;
+        }
+
+        .info-val {
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        /* 標籤小泡泡 (Tag Pills) */
+        .pill-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .tag-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 13.5px;
+            font-weight: 700;
+            transition: all 0.25s ease;
+            cursor: default;
+        }
+
+        .tag-interest {
+            background: rgba(126, 126, 209, 0.12);
+            color: var(--primary-dark);
+            border: 1px solid rgba(126, 126, 209, 0.25);
+        }
+
+        .tag-interest:hover {
+            transform: translateY(-2px) scale(1.04);
+            background: rgba(126, 126, 209, 0.22);
+        }
+
+        .tag-skill {
+            background: linear-gradient(135deg, rgba(255, 143, 163, 0.15), rgba(255, 179, 186, 0.2));
+            color: #B83253;
+            border: 1px solid rgba(255, 143, 163, 0.3);
+        }
+
+        .tag-skill:hover {
+            transform: translateY(-2px) scale(1.04);
+            background: linear-gradient(135deg, rgba(255, 143, 163, 0.25), rgba(255, 179, 186, 0.3));
+        }
+
+        /* 技能進度條 */
+        .skill-bar-container {
+            margin-bottom: 14px;
+        }
+
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .skill-progress-bg {
+            width: 100%;
+            height: 10px;
+            background: rgba(90, 90, 173, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .skill-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-light), var(--accent-pink));
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        /* 經歷時間軸 (Timeline) */
+        .timeline {
+            position: relative;
+            padding-left: 24px;
+            border-left: 3px solid rgba(90, 90, 173, 0.2);
+            margin: 10px 0 30px 10px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -32px;
+            top: 4px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(90, 90, 173, 0.2);
+        }
+
+        .timeline-date {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary-light);
+            margin-bottom: 4px;
+        }
+
+        .timeline-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .timeline-desc {
+            font-size: 14.5px;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* 社群與連結按鈕區 */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 22px;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(90, 90, 173, 0.12);
+        }
+
+        .btn-threads {
+            background: linear-gradient(135deg, #101010, #262626);
+            color: #FFFFFF;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-threads:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #202020, #363636);
+        }
+
+        .btn-school {
+            background: linear-gradient(135deg, #5A5AAD, #7A7AD1);
+            color: #FFFFFF;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-school:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 28px rgba(90, 90, 173, 0.35);
+            background: linear-gradient(135deg, #4E4E9E, #6C6CC5);
+        }
+
+        .btn-content-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .btn-icon {
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-texts {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .btn-main-text {
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-sub-text {
+            font-size: 12px;
+            opacity: 0.8;
+            font-weight: 400;
+        }
+
+        .btn-arrow {
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .action-btn:hover .btn-arrow {
+            transform: translateX(4px);
+        }
+
+        /* 作品展覽區 (Gallery) 與篩選選單 */
+        .portfolio-filter {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid var(--card-border);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-sub);
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary);
+            color: #FFFFFF;
+            border-color: var(--primary);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .art-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 2px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .art-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(126, 126, 209, 0.5);
+        }
+
+        .art-image-container {
+            width: 100%;
+            height: 360px;
+            background: linear-gradient(180deg, rgba(230, 230, 245, 0.6) 0%, rgba(245, 240, 250, 0.9) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 16px;
+        }
+
+        .art-img {
+            max-width: 90%;
+            max-height: 94%;
+            object-fit: contain;
+            filter: drop-shadow(0 12px 20px rgba(90, 90, 173, 0.2));
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .art-card:hover .art-img {
+            transform: scale(1.05) translateY(-4px);
+        }
+
+        .zoom-overlay {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            color: var(--primary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            opacity: 0;
+            transform: translateY(-6px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .art-card:hover .zoom-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .art-details {
+            padding: 18px 22px;
+            background: rgba(255, 255, 255, 0.7);
+            border-top: 1px solid rgba(255, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .art-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .art-tag {
+            font-size: 12px;
+            font-weight: 700;
+            background: rgba(90, 90, 173, 0.1);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+
+        /* 聯絡表單 (Contact Form) */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            border: 1.5px solid rgba(90, 90, 173, 0.2);
+            background: rgba(255, 255, 255, 0.9);
+            font-family: inherit;
+            font-size: 14.5px;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.25s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(90, 90, 173, 0.15);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: #FFFFFF;
+            border: none;
+            padding: 14px;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 16px rgba(90, 90, 173, 0.25);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(90, 90, 173, 0.35);
+        }
+
+        /* 點擊放大的全螢幕 Lightbox Modal */
+        .lightbox-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(30, 30, 50, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes modalPop {
+            0% {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 75vh;
+            object-fit: contain;
+            border-radius: 16px;
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
+        }
+
+        .lightbox-caption {
+            margin-top: 14px;
+            color: #FFFFFF;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 6px 18px;
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -46px;
+            right: 0px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #FFFFFF;
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* 頁腳 */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: var(--text-sub);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* 飄落粒子點擊特效 */
+        .click-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 99999;
+            font-size: 22px;
+            user-select: none;
+            animation: floatUpFade 1s forwards cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        @keyframes floatUpFade {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(0.6) rotate(0deg);
+            }
+
+            50% {
+                transform: translate(-50%, -100px) scale(1.2) rotate(15deg);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -150px) scale(0.8) rotate(-10deg);
+            }
+        }
+
+        /* 響應式優化 */
+        @media (max-width: 680px) {
+            .navbar {
+                flex-direction: column;
+                gap: 12px;
+                padding: 12px 14px;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: space-around;
+                overflow-x: auto;
+            }
+
+            .nav-btn {
+                padding: 6px 12px;
+                font-size: 13.5px;
+            }
+
+            .container {
+                padding: 10px 16px 30px;
+            }
+
+            .hero-card {
+                padding: 32px 20px;
+            }
+
+            .art-image-container {
+                height: 280px;
+            }
+
+            h1.main-title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 柔和漸變背景光暈 -->
+    <div class="ambient-glow">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- 頂部頁籤導覽列 (5個頁面) -->
+    <div class="navbar-wrapper">
+        <nav class="navbar">
+            <div class="nav-brand" onclick="switchPage('home')">
+                🌱 開花豆芽菜
+            </div>
+            <ul class="nav-links">
+                <li><button class="nav-btn active" onclick="switchPage('home')">首頁</button></li>
+                <li><button class="nav-btn" onclick="switchPage('about')">關於我</button></li>
+                <li><button class="nav-btn" onclick="switchPage('portfolio')">作品集</button></li>
+                <li><button class="nav-btn" onclick="switchPage('resume')">經歷簡歷</button></li>
+                <li><button class="nav-btn" onclick="switchPage('contact')">聯絡我</button></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container">
+        <!-- 頁面 1：首頁 (Home) -->
+        <section id="page-home" class="page-tab active">
+            <header class="hero-card">
+                <div class="avatar-wrapper">
+                    <img class="avatar-img" src="images/IMG_6258.PNG" alt="開花豆芽菜頭像" onerror="this.src='IMG_6686.PNG'">
+                    <div class="status-badge">🌱 萌芽中</div>
+                </div>
+                <h1 class="main-title">謝宜軒の個人首頁</h1>
+                <div class="subtitle">
+                    <span class="subtitle-pill">台南應用科技大學</span>
+                    <span class="subtitle-pill">多媒體動畫系</span>
+                    <span>✨ 繪師 / 原創角色創作者</span>
+                </div>
+            </header>
+
+            <div class="info-card" style="margin-bottom: 28px;">
+                <div class="card-header">
+                    <div class="card-icon">📢</div>
+                    <div class="card-title">最新公告 & 近況</div>
+                </div>
+                <p style="line-height: 1.7; color: var(--text-main);">
+                    歡迎來到我的個人網站！目前正在台南應用科技大學多媒體動畫系修讀中。平時喜歡創作原創角色 (OC)、動畫短片構想以及插繪，近期正在籌備全新的專題動畫與角色立繪展示！歡迎點擊上方分頁探索更多資訊 ✨
+                </p>
+            </div>
+
+            <!-- 快捷資訊與社群 -->
+            <div class="section-heading">🔗 快速連結</div>
+            <div class="links-grid" style="margin-bottom: 32px;">
+                <a href="https://www.threads.com/@hanako_ha_" target="_blank" rel="noopener noreferrer"
+                    class="action-btn btn-threads">
+                    <div class="btn-content-left">
+                        <span class="btn-icon">💬</span>
+                        <div class="btn-texts">
+                            <span class="btn-main-text">看不看我脆脆 👀</span>
+                            <span class="btn-sub-text">@hanako_ha_ (Threads)</span>
+                        </div>
+                    </div>
+                    <span class="btn-arrow">→</span>
+                </a>
+                <a href="https://www.tut.edu.tw/" target="_blank" rel="noopener noreferrer"
+                    class="action-btn btn-school">
+                    <div class="btn-content-left">
+                        <span class="btn-icon">🏫</span>
+                        <div class="btn-texts">
+                            <span class="btn-main-text">喔喔南應大 🎓</span>
+                            <span class="btn-sub-text">台南應用科技大學官方網站</span>
+                        </div>
+                    </div>
+                    <span class="btn-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 精選作品預覽 -->
+            <div class="section-heading">✨ 精選原創作品</div>
+            <div class="gallery-grid">
+                <div class="art-card" onclick="openLightbox('images/IMG_5816.PNG', '我自設 • 原創角色立繪')">
+                    <div class="art-image-container">
+                        <div class="zoom-overlay">🔍 點擊放大</div>
+                        <img class="art-img" src="images/IMG_5816.PNG" alt="我自設" loading="lazy">
+                    </div>
+                    <div class="art-details">
+                        <div class="art-title">✨ 我自設</div>
+                        <span class="art-tag">Character 01</span>
+                    </div>
+                </div>
+                <div class="art-card" onclick="openLightbox('images/IMG_6561.jpg', '亞希寶包 • 原創角色立繪')">
+                    <div class="art-image-container">
+                        <div class="zoom-overlay">🔍 點擊放大</div>
+                        <img class="art-img" src="images/IMG_6561.jpg" alt="我家亞希寶包" loading="lazy">
+                    </div>
+                    <div class="art-details">
+                        <div class="art-title">🌸 我家亞希寶包</div>
+                        <span class="art-tag">Character 02</span>
+                    </div>
+        </section>
+
+        <!-- 頁面 2：關於我 (About) -->
+        <section id="page-about" class="page-tab">
+            <div class="section-heading">👤 關於我</div>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="card-header">
+                        <div class="card-icon">🌱</div>
+                        <div class="card-title">詳細基本資料</div>
+                    </div>
+                    <div class="info-item"><span class="info-label">網名暱稱：</span><span class="info-val">開花豆芽菜 /
+                            豆芽菜</span>
+                    </div>
+                    <div class="info-item"><span class="info-label">生理性別：</span><span class="info-val">女 ♀</span></div>
+                    <div class="info-item"><span class="info-label">就讀學校：</span><span class="info-val">台南應用科技大學</span>
+                    </div>
+                    <div class="info-item"><span class="info-label">主修專業：</span><span class="info-val">多媒體動畫系</span>
+                    </div>
+                    <div class="info-item"><span class="info-label">所在地點：</span><span class="info-val">台灣 台南市</span>
+                    </div>
+                    <div class="info-item"><span class="info-label">星座血型：</span><span class="info-val">射手座 / A型</span>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="card-header">
+                        <div class="card-icon">🎨</div>
+                        <div class="card-title">興趣與特質</div>
+                    </div>
+                    <div class="info-item"><span class="info-label">平時熱愛：</span><span
+                            class="info-val">沉浸於二次元與創作世界</span></div>
+                    <div class="info-item"><span class="info-label">創作動機：</span><span
+                            class="info-val">讓腦中的故事與角色活靈活現</span></div>
+                    <div class="pill-group" style="margin-top: 12px;">
+                        <span class="tag-pill tag-interest">🎨 2D 數位插畫</span>
+                        <span class="tag-pill tag-interest">🎬 追番觀影</span>
+                        <span class="tag-pill tag-interest">🎮 RPG 遊戲通關</span>
+                        <span class="tag-pill tag-interest">🍰 甜點巡禮</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 技能熟練度 -->
+            <div class="info-card" style="margin-bottom: 32px;">
+                <div class="card-header">
+                    <div class="card-icon">🛠️</div>
+                    <div class="card-title">專業軟體與技能熟練度</div>
+                </div>
+
+                <div class="skill-bar-container">
+                    <div class="skill-info"><span>Procreate (插畫/角色立繪)</span><span>90%</span></div>
+                    <div class="skill-progress-bg">
+                        <div class="skill-progress-fill" style="width: 90%;"></div>
+                    </div>
+                </div>
+                <div class="skill-bar-container">
+                    <div class="skill-info"><span>Adobe Photoshop (視覺修飾/海報)</span><span>82%</span></div>
+                    <div class="skill-progress-bg">
+                        <div class="skill-progress-fill" style="width: 80%;"></div>
+                    </div>
+                </div>
+                <div class="skill-bar-container">
+                    <div class="skill-info"><span>Adobe Premiere Pro (影片剪輯/後製)</span><span>75%</span></div>
+                    <div class="skill-progress-bg">
+                        <div class="skill-progress-fill" style="width: 70%;"></div>
+                    </div>
+                </div>
+                <div class="skill-bar-container">
+                    <div class="skill-info"><span>Live2D / 角色拆分</span><span>68%</span></div>
+                    <div class="skill-progress-bg">
+                        <div class="skill-progress-fill" style="width: 40%;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 頁面 3：作品集 (Portfolio) -->
+        <section id="page-portfolio" class="page-tab">
+            <div class="section-heading">🖼️ 原創與繪圖作品庫</div>
+
+            <!-- 分類選單 -->
+            <div class="portfolio-filter">
+                <button class="filter-btn active" onclick="filterGallery('all')">🌟 全部作品</button>
+                <button class="filter-btn" onclick="filterGallery('oc')">🎭 原創角色 (OC)</button>
+                <button class="filter-btn" onclick="filterGallery('illustration')">🎨 插繪創作</button>
+                <button class="filter-btn" onclick="filterGallery('concept')">📖 概念草稿</button>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="art-card" onclick="openLightbox('images/IMG_5816.PNG', '自設 • 原創角色立繪')">
+                    <div class="art-image-container">
+                        <div class="zoom-overlay">🔍 點擊放大</div>
+                        <img class="art-img" src="images/IMG_5816.PNG" alt="我自設" loading="lazy">
+                    </div>
+                    <div class="art-details">
+                        <div class="art-title">✨ 我自設</div>
+                        <span class="art-tag">自設 塔羅牌系列</span>
+                    </div>
+                </div>
+
+                <div class="art-card filter-item oc" onclick="openLightbox('images/IMG_6561.jpg', '亞希寶包 • 原創角色立繪')">
+                    <div class="art-image-container">
+                        <div class="zoom-overlay">🔍 點擊放大</div>
+                        <img class="art-img" src="images/IMG_6561.jpg" alt="我家亞希寶包" loading="lazy">
+                    </div>
+                    <div class="art-details">
+                        <div class="art-title">🌸 我家亞希寶包</div>
+                        <span class="art-tag">OC 立繪</span>
+                    </div>
+                </div>
+
+                <div class="art-card filter-item illustration"
+                    onclick="openLightbox('images/IMG_6855.PNG', '服裝設計與排版 • 練習')">
+                    <div class="art-image-container">
+                        <div class="zoom-overlay">🔍 點擊放大</div>
+                        <img class="art-img" src="images/IMG_6855.PNG" alt="亞希寶包的新衣服" loading="lazy">
+                    </div>
+                    <div class="art-details">
+                        <div class="art-title">🎀 亞希寶包的新衣服</div>
+                        <span class="art-tag">服裝創作</span>
+                    </div>
+                </div>
+
+                <div class="art-card filter-item concept" onclick="openLightbox('images/IMG_5817.PNG', '是男同我們有救了')">
+                    <div class="art-image-container">
+                        <div class="zoom-overlay">🔍 點擊放大</div>
+                        <img class="art-img" src="images/IMG_5817.PNG" alt="是男同我們有救了" loading="lazy">
+                    </div>
+                    <div class="art-details">
+                        <div class="art-title">🈸 是男同我們有救了</div>
+                        <span class="art-tag">小頭控制大頭</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 頁面 4：經歷與簡歷 (Resume) -->
+        <section id="page-resume" class="page-tab">
+            <div class="section-heading">📜 經歷與學術活動</div>
+
+            <div class="info-card">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">2023 年 07 月</div>
+                        <div class="timeline-title">開設Threads 社群帳號</div>
+                        <div class="timeline-desc">就 對。</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">2024 年 - 在學中</div>
+                        <div class="timeline-title">台南應用科技大學 多媒體動畫系</div>
+                        <div class="timeline-desc">踏入了設計地獄，從此我健康的肝一去不復返。</div>
+                        <div class="timeline-desc">我能理解你想要健康身體的心情，但很遺憾你學的是設計。</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">2025 年 1 月</div>
+                        <div class="timeline-title">完成創新趨勢期末2D動畫</div>
+                        <div class="timeline-desc">廢物隊友臨陣脫逃，感謝便利商店的咖啡救我狗命。</div>
+                        <div class="timeline-desc">是誰害我期末報告前一天凌晨五點還在趕工。</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">未來</div>
+                        <div class="timeline-title">等待新的旅程中</div>
+                        <div class="timeline-desc">其實我不知道寫什麼了反正就先這樣。</div>
+                    </div>
+
+        </section>
+
+        <!-- 頁面 5：聯絡我 (Contact) -->
+        <section id="page-contact" class="page-tab">
+            <div class="section-heading">✉️ 聯絡資訊與繪圖委託</div>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="card-header">
+                        <div class="card-icon">📬</div>
+                        <div class="card-title">聯絡管道</div>
+                    </div>
+                    <div class="info-item"><span class="info-label">Threads：</span><span
+                            class="info-val">@hanako_ha_</span>
+                    </div>
+                    <div class="info-item"><span class="info-label">電子信箱：</span><span
+                            class="info-val">bean_sprout@example.com（這是假的）</span></div>
+                    <div class="info-item"><span class="info-label">委託狀態：</span><span class="info-val">🟢 少量開放中</span>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="card-header">
+                        <div class="card-icon">📋</div>
+                        <div class="card-title">委託須知簡要</div>
+                    </div>
+                    <p style="font-size: 14px; line-height: 1.6; color: var(--text-main);">
+                        • 擅長領域：少年少女原創角色立繪、Q版頭像、插圖創作。<br>
+                        • 委託流程：溝通 ➔ 草稿 ➔ 線稿 ➔ 上色 ➔ 完稿交付。<br>
+                        • 詳細價格與排期請透過 Threads 私訊洽詢！
+                    </p>
+                </div>
+            </div>
+
+            <!-- 聯絡表單卡片 -->
+            <div class="info-card">
+                <div class="card-header">
+                    <div class="card-icon">💬</div>
+                    <div class="card-title">線上線上留言 / 交流訊息</div>
+                </div>
+                <form class="contact-form" onsubmit="handleFormSubmit(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="sender-name">您的稱呼 / 暱稱</label>
+                        <input type="text" id="sender-name" class="form-input" placeholder="例如：旅人 / 繪友" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="sender-email">聯絡信箱 or 社群帳號</label>
+                        <input type="text" id="sender-email" class="form-input" placeholder="例如：@your_username"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="sender-message">留言內容 / 委託需求</label>
+                        <textarea id="sender-message" class="form-textarea" rows="4" placeholder="想對me說的話或是繪圖委託諮詢..."
+                            required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">送出訊息 💌</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 頁尾 -->
+        <footer>
+            <p>© 開花豆芽菜 • 台南應用科技大學 多媒體動畫系</p>
+        </footer>
+    </div>
+
+    <!-- 圖片點擊放大 Lightbox 彈窗 -->
+    <div id="lightbox" class="lightbox-modal" onclick="closeLightbox(event)">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <button class="lightbox-close" onclick="closeLightbox(event)" title="關閉">✕</button>
+            <img id="lightbox-img" class="lightbox-img" src="" alt="放大預覽">
+            <div id="lightbox-caption" class="lightbox-caption"></div>
+        </div>
+    </div>
+
+    <script>
+        // 頁面切換機制 (Multi-page Navigation)
+        function switchPage(pageId) {
+            // 隱藏所有頁面
+            const pages = document.querySelectorAll('.page-tab');
+            pages.forEach(page => page.classList.remove('active'));
+
+            // 取消所有按鈕 active 樣式
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => btn.classList.remove('active'));
+
+            // 顯示目標頁面
+            const targetPage = document.getElementById('page-' + pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            // 標示對應導覽按鈕
+            const activeBtn = Array.from(navBtns).find(btn => btn.getAttribute('onclick').includes(pageId));
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+
+            // 滾動回頂部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 作品集分類篩選 (Portfolio Filter)
+        function filterGallery(category) {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const items = document.querySelectorAll('.filter-item');
+            items.forEach(item => {
+                if (category === 'all' || item.classList.contains(category)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // 聯絡表單送出測試
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('sender-name').value;
+            alert(`感謝 ${name} 的留言！這是一份示範表單，訊息已成功記錄 ✨`);
+            e.target.reset();
+        }
+
+        // Lightbox 點擊放大展示
+        function openLightbox(src, caption) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+
+            lightboxImg.src = src;
+            lightboxCaption.textContent = caption;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox(e) {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // 按 ESC 鍵關閉 Lightbox
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+
+        // 點擊頁面飄出可愛小萌芽/愛心/星星粒子特效
+        const emojis = ['🌱', '✨', '🌸', '💫', '🎨', '🌷'];
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('#lightbox') || e.target.closest('a') || e.target.closest('button') || e.target.closest('input') || e.target.closest('textarea')) return;
+
+            const particle = document.createElement('div');
+            particle.className = 'click-particle';
+            particle.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            particle.style.left = e.clientX + 'px';
+            particle.style.top = e.clientY + 'px';
+            document.body.appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 1000);
+        });
+    </script>
+</body>
+
+</html>
